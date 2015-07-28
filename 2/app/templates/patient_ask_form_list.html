@@ -1,0 +1,68 @@
+{% extends 'base.html' %} {% block patientAskDoctor %}active{% endblock %}"> {% block container %}
+<div class="row healthms-container-top">
+  {% if askForms %}
+  <div class="col-md-10 col-md-offset-1">
+    <div class="row healthms-bottom-space">
+      <div class="col-md-12 text-right"><a href="{{ url_for('patient_ask_form_deal', typ='add') }}" class="btn btn-primary" role="button">我要提问</a></div>
+    </div>
+    <table class="table table-striped table-hover text-center table-bordered" id="patientAskTable">
+      <thead>
+        <tr>
+          <th class="text-center">序号</th>
+          <th class="text-center">主要症状</th>
+          <th class="text-center">是否回复</th>
+          <th class="text-center">提问时间</th>
+          <th class="text-center">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for askForm in askForms %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td class="text-left">{{ askForm[2] }}</td>
+          <td>{% if askForm[19] == 0 %}未回复{% else %}<strong>已回复</strong>{% endif %}</td>
+          <td>{{ askForm[21].strftime('%Y-%m-%d') }}</td>
+          <td><a href="{{ url_for('ask_form_detail', userTyp=WEB_INFOS.USER_TYP[0], askId=askForm[0]) }}" class="btn btn-primary healthms-table-list-btn" role="button">详细信息</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="col-md-12 text-center">
+    <h2>对不起，您还没有网上问诊单</h2>
+    <a href="{{ url_for('patient_ask_form_deal', typ='add') }}" class="btn btn-primary" role="button">我要提问</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+function delAsk(url, id) {
+    var r=confirm("您确定要删除吗？")
+    if (r==true) {
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            data: {
+                'askId': id,
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            },
+            success: function(data, textStatus){
+                if (data == 'success') {
+                    location.reload();
+                } else{
+                    alert("对不起，后台数据错误！");
+                };
+            }
+        });
+    };  
+};
+</script>
+{% endblock %}

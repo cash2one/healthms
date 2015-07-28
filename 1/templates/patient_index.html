@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block patientIndex %}
+active
+{% endblock %}
+
+{% block container %}
+<div class="patient-index healthms-container-top healthms-container-bottom">
+{% if patientTestResult %}
+{% if patientTestResult.physique %}
+<div class="row">
+  <div class="col-md-12">
+    <h4>{{ WEB_INFOS.TEST_NAMES[0] }}</h4>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+    <p>
+      您的主要体质：&nbsp;<strong>{{ patientTestResult.physique.patientPhysiqueResult.patientTestMainResult[0] }}</strong><br>
+      您倾向的体质：
+      <strong>
+      {% if patientTestResult.physique.patientPhysiqueResult.patientTestOtResult %}
+        {% for patientTestOt in patientTestResult.physique.patientPhysiqueResult.patientTestOtResult %}
+          {% if not loop.last %}
+          <a href="{{ url_for('patient_test_physique_cate', cate_id=patientTestOt.patientTestCateId) }}">{{ patientTestOt.patientTestOt }}</a>,&nbsp;
+          {% else %}
+          <a href="{{ url_for('patient_test_physique_cate', cate_id=patientTestOt.patientTestCateId) }}">{{ patientTestOt.patientTestOt }}</a>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+      无
+      {% endif %}
+      </strong>
+    </p>
+    <hr>
+    <dl class="dl-horizontal healthms-patient-test-result-dl">
+      <dt>体质名称：</dt>
+      <dd>{{ patientTestResult.physique.patientPhysiqueResult.patientTestMainResult[0] }}</dd>
+      <dt>总体特征：</dt>
+      <dd>{{ patientTestResult.physique.patientPhysiqueResult.patientTestMainResult[1].cGeneral }}</dd>
+      <dt>形体特征：</dt>
+      <dd>{{ patientTestResult.physique.patientPhysiqueResult.patientTestMainResult[1].cPhysique }}</dd>
+      <dt>常见表现：</dt>
+      <dd>{{ patientTestResult.physique.patientPhysiqueResult.patientTestMainResult[1].cExpression }}</dd>
+      <dt>心理特征：</dt>
+      <dd>{{ patientTestResult.physique.patientPhysiqueResult.patientTestMainResult[1].cPsychology }}</dd>
+      <dt>发病倾向：</dt>
+      <dd>{{ patientTestResult.physique.patientPhysiqueResult.patientTestMainResult[1].cInciTend }}</dd>
+      <dt>对外界环境适应能力：</dt>
+      <dd>{{ patientTestResult.physique.patientPhysiqueResult.patientTestMainResult[1].cAdaptability }}</dd>
+      <dt>辨识方法：</dt>
+      <dd>{{ patientTestResult.physique.patientPhysiqueResult.patientTestMainResult[1].cIdentification }}</dd>
+      <dt>调节方法：</dt>
+      <dd>{{ patientTestResult.physique.patientPhysiqueResult.patientTestMainResult[1].cAdjust }}</dd>
+    </dl>
+  </div>
+</div>
+{% if patientTestResult.SCL90 %}
+<hr>
+{% endif %}
+{% endif %}
+{% if patientTestResult.SCL90 %}
+<div class="row">
+  <div class="col-md-12">
+    <h4>{{ WEB_INFOS.TEST_NAMES[1] }}</h4>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-10 col-md-offset-1">
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-bordered text-center">
+      <tr>
+        <td><strong>总分</strong></td>
+        <td><strong>总体情况</strong></td>
+        <td><strong>测试时间</strong></td>
+        <td><strong>操作</strong></td>
+      </tr>
+      <tr>
+        <td>{{ patientTestResult.SCL90.patientSCL90Result.testSum.testSum }}</td>
+        <td>{{ patientTestResult.SCL90.patientSCL90Result.testSum.testSumMsg }}</td>
+        <td>{{ patientTestResult.SCL90.testResultDate }}</td>
+        <td><a href="{{ url_for('patient_test_result', result_id=patientTestResult.SCL90.testResultId) }}">详细信息</a></td>
+      </tr>
+    </table>
+  </div>
+</div>
+{% endif %}
+{% else %}
+<div class="row healthms-container-bottom healthms-container-top">
+  <div class="col-md-12 text-center">
+    <h2>您未进行任何测试。</h2>
+    <br>
+    {% for testName in WEB_INFOS.TEST_NAMES %}
+    <a href="{{ url_for('patient_test', testTitle=testName) }}" class="btn btn-primary btn-lg" role="button">{{ testName }}&nbsp;测试</a>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+</div>
+{% endblock %}

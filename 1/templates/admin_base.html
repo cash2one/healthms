@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <title>{{ WEB_INFOS.PROJECT_NAME }}&nbsp;&nbsp;后台管理</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!-- Bootstrap -->
+  <!-- 使用 IE 最新的渲染模式 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 开启兼容移动设备响应式布局 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/healthms_admin.css') }}">
+  {% block headJs %}{% endblock %}
+</head>
+<body>
+
+<div class="page-container">
+
+<div class="sidebar-menu fixed">
+<div class="sidebar-menu-inner">
+  <header class="logo-env"><a href="{{ url_for('admin') }}"><h3>{{ WEB_INFOS.PROJECT_NAME }}</h3></a></header>
+  <ul class="list-unstyled main-menu">
+    <li class="{% block index %}{% endblock %}"><a href="{{ url_for('admin') }}">首页</a></li>
+    <li class="navmenu {% block info %}{% endblock %}">
+      <a href="#">信息管理</a>
+      <ul class="list-unstyled">
+        <li class="{% block carousel %}{% endblock %}"><a href="{{ url_for('admin_carousel_list') }}">首页横幅</a></li>
+        <li class="{% block healthMessage %}{% endblock %}"><a href="{{ url_for('admin_info_list', infoTyp=WEB_INFOS.INFO_TYP[0]) }}">健康新资讯</a></li>
+        <li class="{% block therapyInfo %}{% endblock %}"><a href="{{ url_for('admin_info_list', infoTyp=WEB_INFOS.INFO_TYP[1]) }}">中医疗法介绍</a></li>
+        <li class="{% block friendLink %}{% endblock %}"><a href="{{ url_for('admin_friend_link', typ='list') }}">友情链接</a></li>
+      </ul>
+    </li>
+    <li class="navmenu {% block patient %}{% endblock %}">
+      <a href="#">用户管理</a>
+      <ul class="list-unstyled">
+        <li class="{% block patientList %}{% endblock %}"><a href="{{ url_for('admin_user_list', userTyp=WEB_INFOS.USER_TYP[0]) }}">用户列表</a></li>
+      </ul>
+    </li>
+    <li class="navmenu {% block doctor %}{% endblock %}">
+      <a href="#">医生管理</a>
+      <ul class="list-unstyled">
+        <li class="{% block checkDoctor %}{% endblock %}"><a href="{{ url_for('admin_doctor_check') }}">医生审核</a></li>
+        <li class="{% block doctorList %}{% endblock %}"><a href="{{ url_for('admin_user_list', userTyp=WEB_INFOS.USER_TYP[1]) }}">医生列表</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+</div>
+  
+<div class="main-container">
+  <nav class="navbar navbar-default admin-info-navbar">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right admin-info-ul">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ adminInfo.adminUsername }} <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">我的消息</a></li>
+            <li><a href="#">个人管理</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ url_for('logout', userTyp='admin') }}">退出登录</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div class="row clearfix">
+    <div class="col-md-12">
+      {% block container %}{% endblock %}
+    </div>
+  </div>
+
+  <footer class="healthms-footer">
+    <p>{{ WEB_INFOS.PROJECT_NAME }} built by <a href="" class="healthms-text-white">Tanky Wei</a>.</p>
+  </footer>
+</div>
+</div>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+  
+  {% block js %}{% endblock %}
+
+  <script src="{{ url_for('static', filename='js/healthms_admin.js') }}"></script>
+
+</body>
+</html>

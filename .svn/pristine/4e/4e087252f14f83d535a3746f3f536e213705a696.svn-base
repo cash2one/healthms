@@ -1,0 +1,606 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.healthms-body {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /*ie6不识别min-height,如上述处理*/
+  
+  position: relative;
+}
+
+.healthms-nav {
+  margin-bottom: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  z-index: 10;
+}
+
+.healthms-container {
+  padding-bottom: 91px;
+}
+
+.healthms-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 111px;
+  padding: 40px 0;
+  color: #fff;
+  text-align: center;
+  background-color: #337ab7;
+  border-top: 1px solid #e5e5e5;
+}
+
+.clearfix:after,
+.clearfix:before {
+  content: "";
+  display: table
+}
+
+.clearfix:after {
+  clear: both;
+  overflow: hidden
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+.healthms-container {
+  margin-top: -1px;
+  margin-bottom: -3px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  z-index: 1;
+}
+
+.healthms-base-doctor-img {
+  padding-top: 10px !important;
+  padding-bottom: 0px !important;
+}
+
+.healthms-base-doctor-img>img {
+  margin-right: 5px;
+}
+
+.healthms-bottom-space {
+  margin-bottom: 20px;
+}
+
+.healthms-container-top {
+  margin-top: 20px;
+}
+
+.healthms-container-bottom {
+  margin-bottom: 30px;
+}
+
+.healthms-vertical-center {
+  height: 34px;
+  line-height: 34px;
+}
+
+.healthms-width-auto {
+  width: auto;
+}
+
+.healthms-clean-padding-right {
+  padding-right: 0 !important;
+}
+
+.healthms-clean-padding-left {
+  padding-left: 0 !important;
+}
+
+.healthms-clean-margin-right {
+  margin-right: 0 !important;
+}
+
+.healthms-clean-margin-left {
+  margin-left: 0 !important;
+}
+
+.healthms-clean-padding-right-left-5 {
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+}
+
+.healthms-text-white {
+  color: white;
+}
+
+.healthms-left-btn {
+  margin-right: 30px;
+}
+
+.healthms-fill-width {
+  width: 100%;
+}
+
+.healthms-gray {
+  background-color: #eeeeee;
+}
+
+.healthms-index-more {
+  padding-top: 20px;
+  padding-right: 10px;
+}
+
+.healthms-index-carousel-body {
+  border-bottom: 1px solid #337ab7;
+  margin-bottom: 20px;
+}
+
+.healthms-index-carousel {
+  max-height: 400px;
+  background-color: #fff;
+}
+
+.healthms-index-carousel .item {
+  max-height: 400px;
+  background-color: #fff;
+}
+
+.healthms-index-carousel img {
+  width: 100%;
+}
+
+.healhtms-index-row-1>div:first-child {
+  border-right: 1px solid #e5e5e5;
+}
+
+.healhtms-index-row-1 h3 {
+  margin-top: 10px;
+}
+
+.healhtms-index-row-1 li .col-md-1 p {
+  padding-right: 5px;
+}
+
+.healhtms-index-row-1 li a {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.healhtms-index-info-date {
+  padding-right: 20px;
+}
+
+.healthms-index-hr {
+  margin-bottom: 0px;
+}
+
+.healthms-index-links-body {
+  padding-top: 20px;
+  padding-bottom: 30px;
+  background-color: #f3f4f6;
+}
+
+.healthms-index-links-container>ul {
+  list-style-type: none;
+  height: 100%;
+}
+
+.healthms-index-links-container>ul>li {
+  float: left;
+  width: 25%;
+  padding-bottom: 8px;
+  padding-right: 10px;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.healthms-index-doctor-list>div>a>img {
+  width: 100%;
+}
+
+.healthms-doctor-a,
+.healthms-doctor-a:hover {
+  text-decoration: none;
+}
+.healthms-doctor-a img {
+  width: 90%;
+  height: 90%;
+  margin-top: 2%;
+}
+.healthms-infolist-ul {
+  padding: 0 10px;
+}
+
+.healthms-infolist-ul li {
+  padding-bottom: 3px;
+}
+
+.healthms-infolist-ul .col-md-10 p {
+  display: inline;
+  padding-right: 5px;
+}
+
+.healthms-infolist-hot-artcile-ul .row {
+  height: auto;
+}
+
+.healthms-info-contanter {
+  padding: 10px 15px 0;
+}
+
+.healthms-login-form-title {
+  margin-bottom: 30px;
+}
+
+.healthms-login-container>div>div>ul>li {
+  width: 50%;
+}
+
+.healthms-login-container>div>div>div>div>div>div>form {
+  padding-top: 30px;
+}
+
+.healthms-inline {
+  display: inline !important;
+  width: auto !important;
+}
+
+.healthms-reg-title {
+  margin-bottom: 30px;
+}
+
+.healthms-reg-emsg {
+  padding-top: 4px;
+}
+
+.healthms-reg-codeimg-box {
+  padding: 0;
+}
+
+#doctorRegCheckTelCode {
+  padding-right: 12px !important;
+}
+
+.healthms-reg-code-err {
+  right: 95px !important;
+}
+
+.healthms-test-list-td {
+  padding: 0 !important;
+}
+
+@media (max-width: 767px) {
+  .healthms-test-list-td {
+    width: 50%;
+  } 
+}
+@media (min-width: 768px) and (max-width: 991px) { 
+  .healthms-test-list-td {
+    width: 50%;
+  }
+}
+
+.healthms-test-list-container {
+  width: 100%;
+}
+
+.healthms-test-list-radio {
+  width: 20%
+}
+
+.healthms-patient-test-result-dl {
+  padding: 0 10px;
+}
+
+.healthms-patient-test-result-dl>dd {
+  margin-bottom: 20px;
+}
+
+.healthms-patient-test-cate-dl {
+  margin: 30px 0 40px 0;
+}
+
+.healthms-patient-test-cate-dl>dd {
+  margin-bottom: 20px;
+}
+
+#testStartBtn {
+  margin-top: 30px;
+}
+
+.healthms-table-list-btn {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+#patientAskTable tr>th:nth-of-type(1) {
+  white-space: nowrap;
+}
+
+#patientAskTable tr>td:nth-of-type(1) {
+  vertical-align: middle;
+  width: 5%;
+}
+
+#patientAskTable tr>th:nth-of-type(3) {
+  white-space: nowrap;
+}
+
+#patientAskTable tr>td:nth-of-type(3) {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+#patientAskTable tr>td:nth-of-type(4) {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+#patientAskTable tr>td:nth-of-type(5) {
+  white-space: nowrap;
+  vertical-align: middle;
+  width: 19%;
+}
+
+#doctorAskTable tr>th:nth-of-type(1) {
+  white-space: nowrap;
+}
+
+#doctorAskTable tr>td:nth-of-type(1) {
+  vertical-align: middle;
+  width: 4%;
+}
+
+#doctorAskTable tr>th:nth-of-type(2) {
+  white-space: nowrap;
+}
+
+#doctorAskTable tr>td:nth-of-type(2) {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+#doctorAskTable tr>th:nth-of-type(3) {
+  white-space: nowrap;
+}
+
+#doctorAskTable tr>td:nth-of-type(3) {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+#doctorAskTable tr>th:nth-of-type(4) {
+  white-space: nowrap;
+}
+
+#doctorAskTable tr>td:nth-of-type(4) {
+  vertical-align: middle;
+}
+
+#doctorAskTable tr>th:nth-of-type(5) {
+  white-space: nowrap;
+}
+
+#doctorAskTable tr>td:nth-of-type(5) {
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+#doctorAskTable tr>td:nth-of-type(6) {
+  white-space: nowrap;
+  vertical-align: middle;
+  width: 18%;
+}
+
+.heathms-ask-form-dl dt {
+  margin-bottom: 8px;
+}
+
+.healthms-ask-answer-container {
+  padding: 10px;
+}
+.healthms-ask-answer-doctor img {
+  width: 96px;
+  height: 96px;
+  float: left;
+}
+
+.healthms-ask-answer-title {
+  float: left;
+}
+
+.healthms-ask-answer-title,
+.healthms-ask-answer-title>h4>small {
+  margin-left: 10px;
+}
+
+.healthms-ask-answer-commition section {
+  position: relative;
+  margin-top: 18px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+}
+
+.healthms-ask-form-physique+.row+.row,
+.healthms-ask-form-scl+.row+.row {
+  padding-left: 3%;
+}
+
+.healthms-ask-form-physique+.row hr,
+.healthms-ask-form-scl+.row hr{
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.healthms-ask-form-physique h4+p,
+.healthms-ask-form-scl  h4+p {
+  padding-top:9px;
+  padding-right: 2%;
+  margin-bottom: 5px;
+}
+.healthms-ask-form-physique h4,
+.healthms-ask-form-scl  h4 {
+  width: 50%;
+  margin-bottom: 5px;
+}
+.healthms-ask-form-physique h4>small,
+.healthms-ask-form-scl  h4>small {
+  padding-left: 3%;
+}
+.healthms-commition-section-doctor {
+  background-color: #F0F8FF;
+}
+
+.healthms-triangle-doctor {
+  border-bottom-color: #F0F8FF !important;
+}
+
+.healthms-commition-section-patient {
+  background-color: #FDF5E6;
+}
+.healthms-triangle-patient {
+  border-bottom-color: #FDF5E6 !important;
+}
+.healthms-triangle-line {
+  margin-top: -15px;
+  display: block;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  line-height: 0;
+  font-size: 0;
+  border-bottom: 15px solid #ccc;
+  border-top: none;
+  border-left: 15px dashed transparent;
+  border-right: 15px dashed transparent;
+}
+.healthms-triangle {
+  margin-top: -14px;
+  display: block;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  line-height: 0;
+  font-size: 0;
+  border-bottom: 15px solid;
+  border-top: none;
+  border-left: 15px dashed transparent;
+  border-right: 15px dashed transparent;
+}
+
+.healthms-left-triangle {
+  position: absolute;
+  top: 0;
+  left: 3%;
+}
+
+.healthms-right-triangle {
+  position: absolute;
+  top: 0;
+  right: 3%;
+}
+
+.healthms-commition-date {
+  position: absolute;
+  bottom: 0;
+  right: 3%;
+}
+
+.healthms-commition-form-btn {
+  margin-top: 15px;
+}
+.healthms-commition-btn {
+  margin-bottom: 15px;
+}
+.healthms-commition-me-doctor {
+  margin-left: 4%;
+}
+.healthms-commition-me-patient {
+  margin-right:4%;
+}
+.healthms-d-d-img {
+  float: left;
+}
+.healthms-d-d-title {
+  float: left;
+}
+.healthms-d-d-title>h3 {
+  margin-top: 5px;
+}
+.healthms-d-d-title,
+.healthms-d-d-title small {
+  margin-left: 15px;
+}
+.healthms-d-d-container section {
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.healthms-user-body {
+  border:1px solid #ddd;
+  border-radius: 5px;
+  -webkit-border-radius:5px;
+  -moz-border-radius:5px;
+  -ms-border-radius:5px;
+  -o-border-radius:5px;
+}
+.healthms-user-header {
+  background-color:#F0F0F0;
+  padding: 10px 10px;
+}
+.healthms-user-header h5 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.healthms-user-nav {
+  float: left;
+  width: 20%;
+  height: 100%;
+  padding: 10px 10px 10px 30px;
+}
+.healthms-user-nav li{
+  text-align: center;
+}
+.healthms-user-nav .active a {
+  background-color: #f0f0f0;
+}
+.healthms-user-nav a,
+.healthms-user-nav a:hover {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-decoration: none;
+  color:#5d7895;
+  display: block;
+}
+.healthms-user-nav a:hover {
+  background-color: #f0f0f0;
+}
+.healhtms-user-container {
+  float: left;
+  width: 80%;
+  height: 100%;
+  padding:10px;
+}
+.healthms-user-footer {
+  clear: both;
+}
+.patient-index .row h4 {
+  padding-left: 20px;
+}
+
+.heathms-ask-form-dl .col-md-5 {
+  padding-left: 23px;
+}

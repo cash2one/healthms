@@ -1,0 +1,7 @@
+{
+  "directory" : "static",
+  "json"      : "bower.json",  
+  "endpoint"  : "",  
+  "searchpath"  : "",  
+  "shorthand_resolver" : ""
+}

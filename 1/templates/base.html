@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+  <title>{{ WEB_INFOS.PROJECT_NAME }}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!-- Bootstrap -->
+  <!-- 使用 IE 最新的渲染模式 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 开启兼容移动设备响应式布局 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link href="{{ url_for('static', filename='css/healthms.css') }}" rel="stylesheet">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <!-- this should go after your </body> -->
+  {% block headCss %}{% endblock %}
+  {% block headJs %}{% endblock %}
+</head>
+
+<body class="healthms-body">
+  <nav class="navbar navbar-default healthms-nav">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{{ url_for('index') }}">{{ WEB_INFOS.PROJECT_NAME }}</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li role="presentation" class="{% block index %}{% endblock %}"><a href="{{ url_for('index') }}">首页</a></li>
+          {% if patientInfo %}
+          <li role="presentation" class="{% block patientIndex %}{% endblock %}"><a href="{{ url_for('patient_index') }}">我的情况</a></li>
+          <li role="presentation" class="dropdown {% block patientTest %}{% endblock %}">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">中医辨识干预</a>
+            <ul class="dropdown-menu" role="menu">
+              {% for testName in WEB_INFOS.TEST_NAMES %}
+              <li><a href="{{ url_for('patient_test', testTitle=testName) }}">{{testName}}</a></li>
+              {% if loop.index == 1 %}
+              <li class="divider"></li>
+              {% endif %} {% endfor %}
+            </ul>
+          </li>
+          <li role="presentation" class="dropdown {% block patientHistory %}{% endblock %}">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">个人历史测试</a>
+            <ul class="dropdown-menu" role="menu">
+              {% for testName in WEB_INFOS.TEST_NAMES %}
+              <li><a href="{{ url_for('patient_test_history', testTitle=testName) }}">{{testName}}</a></li>
+              {% if loop.index == 1 %}
+              <li class="divider"></li>
+              {% endif %} {% endfor %}
+            </ul>
+          </li>
+          <li role="presentation" class="dropdown {% block patientAskDoctor %}{% endblock %}">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">咨询医生</a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="{{ url_for('patient_ask_form_deal', typ='add') }}">我要咨询</a></li>
+              <li><a href="{{ url_for('patient_ask_form_list') }}">咨询列表</a></li>
+              <li><a href="{{ url_for('list_doctors') }}">专家列表</a></li>
+            </ul>
+          </li>
+          {% elif doctorInfo %}
+          <li class="{% block doctorAskList %}{% endblock %}"><a href="{{ url_for('doctor_ask_form_list') }}">问诊列表</a></li>
+          <li class="{% block doctorAskHistory %}{% endblock %}"><a href="{{ url_for('doctor_has_ask_form_list') }}">我的问诊</a></li>
+          {% endif %}
+          <li role="presentation" class="dropdown {% block info %}{% endblock %}">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">资讯百科</a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="{{ url_for('info_list', infoTyp = WEB_INFOS.INFO_TYP[0]) }}">{{ WEB_INFOS.INFO_TYP[0] }}</a></li>
+              <li><a href="{{ url_for('info_list', infoTyp = WEB_INFOS.INFO_TYP[1]) }}">{{ WEB_INFOS.INFO_TYP[1] }}</a></li>
+              <li><a href="{{ url_for('info_list', infoTyp = WEB_INFOS.INFO_TYP[2]) }}">{{ WEB_INFOS.INFO_TYP[2] }}</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="navbar-right">
+          <ul class="nav navbar-nav">
+            {% if patientInfo %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> {{ patientInfo.patientName }} <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{{ url_for('user_edit_info', userTyp=WEB_INFOS.USER_TYP[0]) }}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;修改资料</a></li>
+                <li class="divider"></li>
+                <li><a href="{{ url_for('logout', userTyp = WEB_INFOS.USER_TYP[0]) }}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;退出登录</a></li>
+              </ul>
+            </li>
+            {% elif doctorInfo %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle healthms-base-doctor-img" data-toggle="dropdown" role="button" aria-expanded="false"><img src="{{ doctorInfo.doctorImg }}" alt="医生头像" class="img-circle" width="32px"> {{ doctorInfo.doctorName }} <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{{ url_for('user_edit_info', userTyp=WEB_INFOS.USER_TYP[1]) }}"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;修改资料</a></li>
+                <li class="divider"></li>
+                <li><a href="{{ url_for('logout', userTyp = WEB_INFOS.USER_TYP[1]) }}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;退出登录</a></li>
+              </ul>
+            </li>
+            {% else %}
+            <p class="navbar-text healthms-clean-margin-right">您还未登陆！请</p>
+            <li class="{% block login %}{% endblock %}"><a href="{{ url_for('login', userTyp = WEB_INFOS.USER_TYP[0]) }}">登录</a></li>
+            <p class="navbar-text healthms-clean-margin-right healthms-clean-margin-left">&nbsp;|&nbsp;</p>
+            <li class="{% block register %}{% endblock %}"><a href="{{ url_for('register', userTyp = WEB_INFOS.USER_TYP[0]) }}">注册</a></li>
+            {% endif %}
+            <li><a href="#">帮助</a></li>
+            <li><a href="#">关于我们</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="container healthms-container clearfix">
+    {% block container %}{% endblock %}
+  </div>
+  <footer class="healthms-footer">
+    <div class="container">
+      <p>{{ WEB_INFOS.PROJECT_NAME }} built by <a href="" class="healthms-text-white">Tanky Wei</a>.</p>
+    </div>
+  </footer>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  </script>
+  <script src="{{ url_for('static', filename='js/healthms.js') }}"></script>
+  <script charset="utf-8" src="{{ url_for('static', filename='js/common.data.min.js') }}"></script>
+  {% block js %}{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block container %}
+<div class="healthms-user-body healthms-container-top healthms-container-bottom">
+  <div class="healthms-user-header">
+    <h5><strong>修改资料</strong></h5>
+  </div>
+  <div class="healthms-user-nav">
+    <ul class="list-unstyled">
+      <li class="{% block userInfo %}{% endblock %}"><a href="{% if patientInfo %}{{ url_for('user_edit_info', userTyp=WEB_INFOS.USER_TYP[0]) }}{% elif doctorInfo %}{{ url_for('user_edit_info', userTyp=WEB_INFOS.USER_TYP[1]) }}{% endif %}">基本资料</a></li>
+      <li class="{% block changePwd %}{% endblock %}"><a href="{% if patientInfo %}{{ url_for('user_edit_pwd', userTyp=WEB_INFOS.USER_TYP[0]) }}{% elif doctorInfo %}{{ url_for('user_edit_pwd', userTyp=WEB_INFOS.USER_TYP[1]) }}{% endif %}">修改密码</a></li>
+    </ul>
+  </div>
+  <div class="healhtms-user-container">
+    {% if result %}
+    {% if result == True %}
+    <div class="healthms-p-i-success">
+      <div class="alert alert-success alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span></button>您的信息更新成功！
+      </div>
+    </div>
+    {% else %}
+    <div class="healthms-p-i-error">
+      <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span></button>{{ result }}
+      </div>
+    </div>
+    {% endif %}{% endif %}
+    {% block userInfoContainer %}{% endblock %}
+  </div>
+  <div class="clearfix"></div>
+</div>
+{% endblock %}
+{% block headCss %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datetimepicker/jquery.datetimepicker.css') }}"/ >
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+function changeCode() {
+    var url = "/code/" + Math.random();
+    $("#editCodeImg").attr("src", url);
+    $("#editCode").parent().parent().parent().removeClass('has-success has-feedback');
+    $("#editCode").parent().parent().parent().addClass('has-error has-feedback');
+    $(".healthms-reg-code-err").remove();
+    $("#editCode").parent().after('<span class="healthms-reg-code-err glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span><span class="healthms-reg-code-err sr-only">(error)</span>');
+    $("#editCodeEMsg").html('验证码不正确');
+    return false;
+};
+
+function checkCode() {
+    var result;
+    $.ajax({
+        type: 'POST',
+        url: '/code/0.1',
+        dataType: 'json',
+        async: false,
+        data: {
+            'code': $('#editCode').val()
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest.status);
+            alert(XMLHttpRequest.readyState);
+            alert(textStatus);
+        },
+        success: function(data, textStatus) {
+            result = data.result;
+        }
+    });
+    return result;
+};
+</script>
+{% block userJs %}{% endblock %}
+{% endblock %}

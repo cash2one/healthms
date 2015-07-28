@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block patientAskDoctor %}
+active
+{% endblock %}
+{% block container %}
+{% if doctor %}
+<div class="page-header">
+  <h2 class="text-center">{{ doctor[3] }}专家信息</h2>
+</div>
+<div class="row healthms-container-bottom healthms-d-d-container">
+  <div class="col-md-10 col-md-offset-1">
+    <header>
+      <div class="healthms-d-d-img">
+        <img src="{{ doctor[16] }}" alt="{{ doctor[3] }}" class="img-thumbnail" width="100px">
+      </div>
+      <div class="healthms-d-d-title">
+        <h3>{{ doctor[3] }}<small>{{ doctor[14] }}</small></h3>
+        <p><strong>医院：</strong>{{ doctor[11] }}</p>
+        <p><strong>职务：</strong>{{ doctor[13] }}</p>
+      </div>
+      <div class="clearfix"></div>
+    </header>
+    <hr>
+    <article>
+      <div role="tabpanel">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#doctorInfo" aria-controls="doctorInfo" role="tab" data-toggle="tab">详细信息</a></li>
+          <li role="presentation"><a href="#doctorHistory" aria-controls="doctorHistory" role="tab" data-toggle="tab">就医经验</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <section role="tabpanel" class="tab-pane active" id="doctorInfo">
+            <p><strong>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</strong>{{ doctor[3] }}</p>
+            <p><strong>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</strong>{{ doctor[4] }}</p>
+            <p><strong>出生日期：</strong>{{ doctor[5] }}</p>
+            <p><strong>医&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;院：</strong>{{ doctor[11] }}</p>
+            <p><strong>科&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;室：</strong>{{ doctor[12] }}</p>
+            <p><strong>专业特长：</strong>{{ doctor[15] }}</p>
+          </section>
+          <section role="tabpanel" class="tab-pane" id="doctorHistory">
+          {% if hasAskForms %}
+          <ul class="list-unstyled">
+          {% for askForm in hasAskForms %}
+          <li>
+            <div class="row">
+              <div class="col-md-10"><p>{{ loop.index }}.&nbsp;{{ askForm[0] }}</div>
+              <div class="col-md-2"><p class="text-muted text-right">{{ askForm[1].strftime('%Y-%m-%d')  }}</p></div>
+            </div>
+          </li>
+          {% endfor %}
+          </ul>
+          {% else %}
+          <p>暂无就医经历</p>
+          {% endif %}
+          </section>
+        </div>
+      </div>
+    </article>
+    <footer class="text-right">
+      <a href="javascript:history.back();" class="btn btn-default" role="button">返回</a>
+    </footer>
+  </div>
+</div>
+
+
+{% endif %}
+{% endblock %}

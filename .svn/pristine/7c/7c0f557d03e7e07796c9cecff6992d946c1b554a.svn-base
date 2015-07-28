@@ -1,0 +1,330 @@
+{% extends 'base.html' %} {% block doctorAskList %} active {% endblock %} {% block headJs %}
+<!-- 配置文件 -->
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/ueditor.config.js') }}"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/ueditor.all.min.js') }}">
+</script>
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="{{ url_for('static', filename='ueditor/lang/zh-cn/zh-cn.js') }}"></script>
+{% endblock %} {% block container %} {% if resultDict.askForm %}
+<div class="page-header">
+  <h2 class="text-center">{{ resultDict.patient[3] }}的问诊单</h2>
+  <p class="text-center text-muted"><strong>提问时间：</strong>{{ resultDict.askForm[21].strftime('%Y-%m-%d') }}</p>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="row">
+      <div class="col-md-offset-1 col-md-10">
+        <table class="table table-bordered">
+          <tr>
+            <td><strong>姓名</strong></td>
+            <td>{{ resultDict.patient[3] }}</td>
+            <td><strong>性别</strong></td>
+            <td>{{ resultDict.patient[7] }}</td>
+            <td><strong>出生日期</strong></td>
+            <td>{{ resultDict.patient[8] }}</td>
+            <td><strong>民族</strong></td>
+            <td>{{ resultDict.patient[11] }}</td>
+            <td><strong>婚否</strong></td>
+            <td>{{ resultDict.patient[12] }}</td>
+          </tr>
+          <tr>
+            <td><strong>籍贯</strong></td>
+            <td>{{ resultDict.patient[4] }}{{ resultDict.patient[5] }}{{ resultDict.patient[6] }}</td>
+            <td><strong>职业</strong></td>
+            <td>{{ resultDict.patient[10] }}</td>
+            <td><strong>住址</strong></td>
+            <td colspan="5">{{ resultDict.patient[13] }}</td>
+          </tr>
+        </table>
+        {% if resultDict.patientTestResult.physique %}
+        <div class="row healthms-ask-form-physique">
+          <div class="col-md-12">
+              <h4 class="pull-left"><strong>{{ WEB_INFOS.TEST_NAMES[0] }}</strong><small>{{ resultDict.patientTestResult.physique.testResultDate.strftime('%Y-%m-%d') }}</small></h4>
+              <p class="pull-right"><a href="{{ url_for('patient_test_history', testTitle=WEB_INFOS.TEST_NAMES[0], goBack=1) }}">更多</a></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12"><hr></div>
+        </div>
+        <div class="row">
+          <div class="col-md-11">
+            <p>
+              主要体质：&nbsp;<strong>{{ resultDict.patientTestResult.physique.patientPhysiqueResult.patientTestMainResult[0] }}</strong><br>
+              倾向体质：
+              <strong>
+              {% if resultDict.patientTestResult.physique.patientPhysiqueResult.patientTestOtResult %}
+                {% for patientTestOt in resultDict.patientTestResult.physique.patientPhysiqueResult.patientTestOtResult %}
+                  {% if not loop.last %}
+                  <a href="{{ url_for('patient_test_physique_cate', cate_id=patientTestOt.patientTestCateId) }}">{{ patientTestOt.patientTestOt }}</a>,&nbsp;
+                  {% else %}
+                  <a href="{{ url_for('patient_test_physique_cate', cate_id=patientTestOt.patientTestCateId) }}">{{ patientTestOt.patientTestOt }}</a>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+              无
+              {% endif %}
+              </strong>
+            </p>
+          </div>
+        </div>
+        {% endif %}
+        {% if resultDict.patientTestResult.SCL90 %}
+        <div class="row healthms-ask-form-scl">
+          <div class="col-md-12">
+              <h4 class="pull-left"><strong>{{ WEB_INFOS.TEST_NAMES[1] }}</strong><small>{{ resultDict.patientTestResult.SCL90.testResultDate.strftime('%Y-%m-%d') }}</small></h4>
+              <p class="pull-right"><a href="{{ url_for('patient_test_history', testTitle=WEB_INFOS.TEST_NAMES[1], goBack=1) }}">更多</a></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12"><hr></div>
+        </div>
+        <div class="row">
+          <div class="col-md-11">
+            <p><strong>总分：</strong>{{ resultDict.patientTestResult.SCL90.patientSCL90Result.testSum.testSum }}，{{ resultDict.patientTestResult.SCL90.patientSCL90Result.testSum.testSumMsg }}</p>
+            <div class="row">
+            {% for tsa in resultDict.patientTestResult.SCL90.patientSCL90Result.testSingleAverList %}
+              {% if loop.index0 % 5 == 0%}
+              <div class="col-md-6">
+              {% endif %}
+                <p><strong>{{ tsa[0] }}&nbsp;因子分：</strong>{{ tsa[1] }}，<span class="text-warning">{{ tsa[2] }}</span></p>
+              {% if loop.index0 % 5 == 4 %}
+              </div>
+              {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% if resultDict.patientTestResult.physique or resultDict.patientTestResult.SCL90 %}
+    <hr>
+    {% endif %}
+    <dl class="dl-horizontal heathms-ask-form-dl">
+      <div class="row">
+        <div class="col-md-5">
+          <dt>主要症状：</dt>
+          <dd>{{ resultDict.askForm[2] }}</dd>
+          <dt>其他不适：</dt>
+          <dd>{% if resultDict.askForm[3] %}{{ resultDict.askForm[3] }}{% else %}无{% endif %}</dd>
+          <dt>生病时间：</dt>
+          <dd>{{ resultDict.askForm[4] }}</dd>
+          <dt>面唇颜色：</dt>
+          <dd>{{ resultDict.askForm[5] }}</dd>
+          <dt>身体冷热：</dt>
+          <dd>{{ resultDict.askForm[6] }}</dd>
+          <dt>出汗情况：</dt>
+          <dd>{{ resultDict.askForm[7] }}</dd>
+          <dt>食欲情况：</dt>
+          <dd>{{ resultDict.askForm[8] }}</dd>
+          <dt>饮水情况：</dt>
+          <dd>{{ resultDict.askForm[9] }}</dd>
+          <dt>大便情况：</dt>
+          <dd>{{ resultDict.askForm[10] }}</dd>
+          <dt>小便情况：</dt>
+          <dd>{{ resultDict.askForm[11] }}</dd>
+          <dt>精神睡眠：</dt>
+          <dd>{{ resultDict.askForm[12] }}</dd>
+          <dt>情绪心情：</dt>
+          <dd>{{ resultDict.askForm[13] }}</dd>
+        </div>
+        <div class="col-md-5">
+          <dt>舌脉简况：</dt>
+          <dd>{{ resultDict.askForm[14] }}</dd>
+          {% if resultDict.patient[7] == '女' %}
+          <dt>经带情况：</dt>
+          <dd>{{ resultDict.askForm[15] }}</dd>
+          {% endif %}
+          <dt>局部病变：</dt>
+          <dd>{% if resultDict.askForm[16] %}{{ resultDict.askForm[16] }}{% else %}无{% endif %}</dd>
+          <dt>简要病史：</dt>
+          <dd>{{ resultDict.askForm[17] }}</dd>
+          <dt>舌苔图片：</dt>
+          <dd>{% if resultDict.askForm[18] %}<img src="{{ resultDict.askForm[18] }}" alt="舌苔图片" class="img-rounded" width="200px">{% else %}无{% endif %}</dd>
+        </div>
+      </div>
+    </dl>
+  </div>
+</div>
+{% if resultDict.answers %}
+<div class="row healthms-ask-answer-container healthms-container-bottom">
+  <div class="col-md-12">
+    <hr>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <div class="healthms-ask-answer-doctor">
+        <a href="{{ url_for('detail_doctors', doctorId=resultDict.doctor[0][0]) }}"><img src="{{ resultDict.doctor[0][16] }}" alt="{{ resultDict.doctor[0][3] }}" class="img-thumbnail"></a>
+          <div class="healthms-ask-answer-title">
+            <h4><a href="{{ url_for('detail_doctors', doctorId=resultDict.doctor[0][0]) }}">{{ resultDict.doctor[0][3] }}</a><small>职称：{{ resultDict.doctor[0][13] }}</small></h4>
+            <p>医院：{{ resultDict.doctor[0][11] }}&nbsp;&nbsp;&nbsp;&nbsp;科室：{{ resultDict.doctor[0][12] }}</p>
+            <p>专业特长：{{ resultDict.doctor[0][15] }}</p>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="healthms-ask-answer-commition">
+        <hr>
+          {% for answer in resultDict.answers %} {% if answer[3] == 0 %}
+          <article>
+            <div class="col-md-10">
+              <header>
+              {% if not doctorInfo %}
+                <h4>{{ resultDict.doctor[0][3] }}&nbsp;&nbsp;<small>{{ resultDict.doctor[0][13] }}</small></h4>
+              {% else %}
+                <h4 class="healthms-commition-me-doctor">我</h4>
+              {% endif %}
+              </header>
+              <section class="healthms-commition-section-doctor">
+                <span class="healthms-triangle-line healthms-left-triangle"></span>
+                <span class="healthms-triangle healthms-left-triangle healthms-triangle-doctor"></span> {{ answer[2]|safe }}
+                <p class="text-muted healthms-commition-date">回复于{{ answer[4].strftime('%Y-%m-%d') }}</p>
+              </section>
+            </div>
+          </article>
+          {% else %}
+          <article>
+            <div class="col-md-10 col-md-offset-2">
+              <header class="text-right">
+              {% if not patientInfo %}
+                <h4>{{ resultDict.patient[3] }}</h4>
+              {% else %}
+                <h4 class="healthms-commition-me-patient">我</h4>
+              {% endif %}
+              </header>
+              <section class="healthms-commition-section-patient">
+                <span class="healthms-triangle-line healthms-right-triangle"></span>
+                <span class="healthms-triangle healthms-right-triangle healthms-triangle-patient"></span> {{ answer[2]|safe }}
+                <p class="text-muted healthms-commition-date">回复于{{ answer[4].strftime('%Y-%m-%d') }}</p>
+              </section>
+            </div>
+          </article>
+          {% endif %} {% if loop.last %}
+          <div class="row healthms-commition-form-container">
+            <div class="col-md-12">
+            <hr>
+              {% if resultDict.askForm[22] == 0 %}
+              <!-- 医生 -->
+              {% if doctorInfo %} {% if answer[3] == 1 %}
+              <h4>回复：</h4>
+              <form action="{{ url_for('ask_form_deal', userTyp=WEB_INFOS.USER_TYP[1]) }}" method="POST">
+                <input type="hidden" name="askId" value="{{ resultDict.askForm[0] }}">
+                <script id="commition" name="commition" type="text/plain"></script>
+                <div class="healthms-commition-form-btn text-right">
+                  <a href="{{ url_for('doctor_ask_form_list') }}" class="btn btn-default" role="button">返回</a>
+                  <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+              </form>
+              {% else %}
+              <p class="text-center text-warning">等待用户回复</p>
+              {% endif %} {% endif %}
+              <!-- 用户 -->
+              {% if patientInfo %} {% if answer[3] == 0 %}
+              <div class="healthms-commition-btn">
+                <a href="{{ url_for('patient_ask_form_list') }}" class="btn btn-default" role="button">返回</a>
+                <button type="button" class="btn btn-primary" onclick="continueCommition();">继续提问</button>
+                <form action="{{ url_for('ask_form_finish') }}" method="POST" style="display:inline;">
+                  <input type="hidden" name="askId" value="{{ resultDict.askForm[0] }}">
+                  <button type="sumbit" class="btn btn-success">已解决问题</button>
+                </form>
+              </div>
+              <form action="{{ url_for('ask_form_deal', userTyp=WEB_INFOS.USER_TYP[0]) }}" method="POST" id="healthmsCommitionPatientForm" style="display:none;">
+                <input type="hidden" name="askId" value="{{ resultDict.askForm[0] }}">
+                <script id="commition" name="commition" type="text/plain"></script>
+                <div class="healthms-commition-form-btn text-right">
+                  <button type="submit" class="btn btn-primary">提交</button>
+                </div>
+              </form>
+              {% else %}
+              <p class="text-center text-warning">等待医生回复</p>
+              {% endif %} {% endif %}
+              {% else %}
+              <p class="text-center text-success"><strong>此问题已解决</strong></p>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %} {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %} {% if doctorInfo %}
+<div class="row healthms-container-bottom">
+  {% if not resultDict.answers %}
+  <div class="col-md-10 col-md-offset-1">
+    <a href="{{ url_for('doctor_ask_form_list') }}" class="btn btn-default" role="button">返回</a>
+    <button type="button" class="btn btn-primary" onclick="doctorAnswerAsk();">我要回答</button>
+  </div>
+  <div class="col-md-12" id="doctorAnswerContainer" style="display: none;">
+    <hr>
+    <form action="{{ url_for('ask_form_deal', userTyp=WEB_INFOS.USER_TYP[1]) }}" method="POST" class="form-horizontal">
+      <input type="hidden" name="askId" value="{{ resultDict.askForm[0] }}">
+      <div class="form-group">
+        <label for="doctorAnswer" class="col-md-2 control-label">问诊单回答</label>
+        <div class="col-md-10">
+          <script id="commition" name="commition" type="text/plain"><strong> 问题分析：</strong>&nbsp;
+            <br>
+            <br><strong>意见建议：</strong>&nbsp;
+            <br>
+          </script>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+          <button type="submit" class="btn btn-primary">提交</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  {% else %} {% endif %}
+</div>
+{% endif %} {% if patientInfo %} {% if not resultDict.answers %}
+<div class="row healthms-container-bottom">
+  <div class="col-md-10 col-md-offset-1">
+    <a href="{{ url_for('patient_ask_form_list') }}" class="btn btn-default" role="button">返回</a>
+  </div>
+</div>
+{% endif %} {% endif %} {% endif %} {% endblock %} {% block js %}
+<script type="text/javascript">
+//实例化编辑器
+//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+var ue = UE.getEditor('commition', {
+  toolbars: [
+    ['fullscreen',
+      'undo', //撤销
+      'redo', //重做
+      '|',
+      'bold', //加粗
+      'italic', //斜体
+      'underline', //下划线
+      'strikethrough', //删除线
+      '|',
+      'insertorderedlist', //有序列表
+      'insertunorderedlist', //无序列表
+      'link', //超链接
+      'unlink' //取消链接
+    ]
+  ],
+  initialFrameWidth: null,
+  initialFrameHeight: 200,
+  enableContextMenu: false
+});
+
+{% if not resultDict.answers %}
+
+function doctorAnswerAsk() {
+  $("#doctorAnswerContainer").slideDown(300);
+  UE.getEditor('commition').focus();
+  setTimeout("$('html,body').animate({scrollTop:$('#commition').offset().top}, 500);", 300);
+} 
+{% else %} {% if patientInfo %}
+
+function continueCommition() {
+  $("#healthmsCommitionPatientForm").slideDown(300);
+  UE.getEditor('commition').focus();
+  setTimeout("$('html,body').animate({scrollTop:$('#commition').offset().top}, 500);", 300);
+} 
+{% endif %} {% endif %}
+</script>
+{% endblock %}

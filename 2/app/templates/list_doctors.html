@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block patientAskDoctor %}
+active
+{% endblock %}
+
+{% block container %}
+<div class="page-header">
+  <h2>名医列表</h2>
+</div>
+{% if doctors %}
+<div class="healthms-container-bottom">
+{% for doctor in doctors %}
+{% if loop.index0 % 6 == 0 %}
+<div class="row">
+{% endif %}
+<div class="col-md-2 col-sm-6">
+  <a href="{{ url_for('detail_doctors', doctorId=doctor[0]) }}" class="thumbnail healthms-doctor-a">
+    <img src="{{ doctor[16] }}" alt="{{ doctor[3] }}" class="img-rounded">
+    <div class="caption">
+      <h4>{{ doctor[3] }}<br><small>{{ doctor[13] }}、{{ doctor[14] }}</small></h4>
+      <p>{{ doctor[11] }}</p>
+    </div>
+  </a>
+</div>
+{% if loop.index0 % 6 == 5 %}
+</div>
+{% endif %}
+{% endfor %}
+</div>
+{% else %}
+<div class="row">
+  <div class="col-md-12">
+    <h3 class="text-center">对不起，本网站暂无医生</h3>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

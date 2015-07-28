@@ -1,0 +1,178 @@
+{% extends "user_info_base.html" %}
+
+{% block userInfo %}
+active
+{% endblock %}
+{% block userInfoContainer %}
+<form class="form-horizontal" id="editForm" method="POST" action="{{ url_for('user_edit_info', userTyp=WEB_INFOS.USER_TYP[1]) }}" enctype="multipart/form-data">
+  <input type="hidden" id="userTyp" value="{{ WEB_INFOS.USER_TYP[1] }}">
+  <div class="form-group">
+    <label for="editGender" class="col-md-2 control-label">性别</label>
+    <div class="col-md-6">
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-default {% if doctorInfo.doctorGender == '男' %}active{% endif %}">
+          <input type="radio" name="editGender" autocomplete="off" {% if doctorInfo.doctorGender=='男' %}checked{% endif %} value="男">男
+        </label>
+        <label class="btn btn-default {% if doctorInfo.doctorGender == '女' %}active{% endif %}">
+          <input type="radio" name="editGender" autocomplete="off" {% if doctorInfo.doctorGender=='女' %}checked{% endif %} value="女">女
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="editBirthday" class="col-md-2 control-label">出生日期</label>
+    <div class="col-md-4">
+      <input id="editBirthday" class="form-control" type="text" name="editBirthday" placeholder="请点击选择出生日期" value="{{ doctorInfo.doctorBirthday }}">
+    </div>
+    <div class="col-md-6">
+      <p class="text-danger healthms-reg-emsg"><strong id="editBirthdayEMsg"></strong></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="editDoctorCheckTel" class="col-md-2 control-label">身份核实电话：</label>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <input type="text" class="form-control" id="editDoctorCheckTel" name="editDoctorCheckTel" placeholder="电话号码" value="{{ doctorInfo.doctorCheckTel }}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <span class="text-warning">管理员仅通过医院官方电话找到您本人的方式核实您的身份。<br>请留能联系到您的单位电话。</span>
+          <span class="help-block">格式为：区号-电话号码。如：010-66666666 转 666。</span>
+          <span class="help-block">请详细填写所在医院的固定电话区号-电话号及分机，并确保能联系到您。我们将拨打此电话，核实是否本人注册。<strong>此电话不会被公开。</strong></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <p class="text-danger healthms-reg-emsg"><strong id="editDoctorCheckTelEMsg"></strong></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="editTel" class="col-md-2 control-label">手机</label>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <input type="text" class="form-control" id="editTel" name="editTel" placeholder="请在此输入手机号码" value="{{ doctorInfo.doctorTel }}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <span class="text-warning">如果核实遇到问题，管理员会通过手机与您联系，寻求其他的核实方式。</span>
+          <span class="help-block">作为应急的联系方式，仅用于您相关业务的沟通。<strong>此电话不会被公开。</strong></span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <p class="text-danger healthms-reg-emsg"><strong id="editTelEMsg"></strong></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="editProvince" class="col-md-2 control-label">所工作医院</label>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-3">
+          <select id="editProvince" class="form-control" name="editProvince" onchange="editLoadCity();">
+          </select>
+        </div>
+        <div class="col-md-4">
+          <select id="editCity" class="form-control" name="editCity">
+          </select>
+        </div>
+        <div class="col-md-5">
+          <select id="editCounty" class="form-control" name="editCounty">
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <input type="text" class="form-control" id="editDoctorHospitalName" name="editDoctorHospitalName" placeholder="请在此输入医院名称" value="{{ doctorInfo.doctorHospitalName }}">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <p class="text-danger healthms-reg-emsg"><strong id="editDoctorHospitalNameEMsg"></strong></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="editDoctorOffices" class="col-md-2 control-label">科室</label>
+    <div class="col-md-6">
+      <input type="text" class="form-control" id="editDoctorOffices" name="editDoctorOffices" placeholder="请在此输入 科室" value="{{ doctorInfo.doctorOffices }}">
+    </div>
+    <div class="col-md-4">
+      <p class="text-danger healthms-reg-emsg"><strong id="editDoctorOfficesEMsg"></strong></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="editDoctorProfessional" class="col-md-2 control-label">职称</label>
+    <div class="col-md-6">
+      <select id="editDoctorProfessional" class="form-control" name="editDoctorProfessional">
+      </select>
+    </div>
+    <div class="col-md-4">
+      <p class="text-danger healthms-reg-emsg"><strong id="editDoctorProfessionalEMsg"></strong></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="editDoctorJob" class="col-md-2 control-label">职务</label>
+    <div class="col-md-6">
+      <input type="text" class="form-control" id="editDoctorJob" name="editDoctorJob" placeholder="请在此输入 职务" value="{{ doctorInfo.doctorJob }}">
+    </div>
+    <div class="col-md-4">
+      <p class="text-danger healthms-reg-emsg"><strong id="editDoctorJobEMsg"></strong></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="editDoctorSpecialty" class="col-md-2 control-label">专业特长</label>
+    <div class="col-md-6">
+      <input type="text" class="form-control" id="editDoctorSpecialty" name="editDoctorSpecialty" placeholder="请在此输入 专业特长" value="{{ doctorInfo.doctorSpecialty }}">
+    </div>
+    <div class="col-md-4">
+      <p class="text-danger healthms-reg-emsg"><strong id="editDoctorSpecialtyEMsg"></strong></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-md-2 control-label">我的头像</label>
+    <div class="col-md-6">
+      <img src="{{ doctorInfo.doctorImg }}" alt="{{ doctorInfo.doctorName }}" class="img-rounded" width="96" height="96">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="editDoctorImg" class="col-md-2 control-label">上传新头像</label>
+    <div class="col-md-6">
+      <input type="file" id="editDoctorImg" name="editDoctorImg">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="editCode" class="col-md-2 control-label">验证码</label>
+    <div class="col-md-3">
+      <div class="input-group">
+        <input type="text" class="form-control" id="editCode" placeholder="验证码">
+        <span class="input-group-addon healthms-reg-codeimg-box">
+                  <a onclick="changeCode();"><img src="{{ url_for('get_code', n=0.1) }}" id="editCodeImg" class="img-rounded" alt="验证码"></a>
+                </span>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <p class="text-danger healthms-reg-emsg"><strong id="editCodeEMsg"></strong></p>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <button type="button" id="editSubmit" class="btn btn-primary">&nbsp;&nbsp;提&nbsp;交&nbsp;&nbsp;</button>
+      <button type="reset" class="btn btn-default" id="regReset">&nbsp;重&nbsp;置&nbsp;</button>
+    </div>
+  </div>
+</form>
+
+{% endblock %}
+{% block userJs %}
+<script type="text/javascript">
+  var curProvince = "{{ doctorInfo.doctorProvince }}";
+  var curCity = "{{ doctorInfo.doctorCity }}";
+  var curCounty = "{{ doctorInfo.doctorCounty }}";
+  var curProfessional = "{{ doctorInfo.doctorProfessional }}";
+</script>
+<script src="{{ url_for('static', filename='datetimepicker/jquery.datetimepicker.js') }}"></script>
+<script src="{{ url_for('static', filename='js/healthms_edit_user_info.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'admin_base.html' %}
+
+{% block info %}
+active
+{% endblock %}
+
+{% block healthMessage %}
+{% if infoTyp == WEB_INFOS.INFO_TYP[0] %}
+active
+{% endif %}
+{% endblock %}
+
+{% block therapyInfo %}
+{% if infoTyp == WEB_INFOS.INFO_TYP[1] %}
+active
+{% endif %}
+{% endblock %}
+
+
+
+{% block container %}
+<div class="row">
+  <div class="col-md-12 text-right bottom-space">
+    <a href="{{ url_for('admin_info_add', infoTyp=infoTyp) }}" type="button" class="btn btn-primary">添加文章</a>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    {% if articles %}
+    <table class="table table-bordered table-hover text-center" id="doctorListTable">
+      <thead>
+        <tr>
+            <th class="text-center">序号</th>
+            <th class="text-center">标题</th>
+            <th class="text-center">热度</th>
+            <th class="text-center">作者</th>
+            <th class="text-center">添加日期</th>
+            <th class="text-center">操作</th>
+          </tr>
+      </thead>
+      <tbody>
+      {% for article in articles|sort(attribute='info_edit_date', reverse=True) %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td class="text-left">{{ article.info_title }}</td>
+        <td>{{ article.info_hot }}</td>
+        <td>{{ article.admin.admin_username }}</td>
+        <td>{{ article.info_edit_date.strftime('%Y-%m-%d') }}</td>
+        <td><a href="{{ url_for('admin_info_detail', infoId=article.info_id) }}">修改</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="delInfo('{{ url_for('admin_info_del') }}', {{ article.info_id }});">删除</a></td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="text-center">暂无文章</h2>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

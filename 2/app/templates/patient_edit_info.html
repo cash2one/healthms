@@ -1,0 +1,143 @@
+{% extends "user_info_base.html" %}
+
+{% block userInfo %}
+active
+{% endblock %}
+{% block userInfoContainer %}
+<form class="form-horizontal" id="editForm" method="POST" action="{{ url_for('user_edit_info', userTyp=WEB_INFOS.USER_TYP[0]) }}">
+    <input type="hidden" id="userTyp" value="{{ WEB_INFOS.USER_TYP[0] }}">
+      <div class="form-group">
+        <label for="editGender" class="col-md-2 control-label">性别</label>
+        <div class="col-md-6">
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default {% if patientInfo.patientGender == '男' %}active{% endif %}">
+              <input type="radio" name="editGender" autocomplete="off" {% if patientInfo.patientGender == '男' %}checked{% endif %} value="男">男
+            </label>
+            <label class="btn btn-default {% if patientInfo.patientGender == '女' %}active{% endif %}">
+              <input type="radio" name="editGender" autocomplete="off" {% if patientInfo.patientGender == '女' %}checked{% endif %} value="女">女
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="editBirthday" class="col-md-2 control-label">出生日期</label>
+        <div class="col-md-4">
+          <input id="editBirthday" class="form-control" type="text" name="editBirthday" placeholder="请点击选择出生日期" value="{{ patientInfo.patientBirthday }}">
+        </div>
+        <div class="col-md-6">
+          <p class="text-danger healthms-reg-emsg"><strong id="editBirthdayEMsg"></strong></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="editPatientNation" class="col-md-2 control-label">民族</label>
+        <div class="col-md-6">
+          <select class="form-control" id="editPatientNation" name="editPatientNation">
+          </select>
+        </div>
+        <div class="col-md-4">
+          <p class="text-danger healthms-reg-emsg"><strong id="editNationEMsg"></strong></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="editProvince" class="col-md-2 control-label">籍贯</label>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-3">
+              <select id="editProvince" class="form-control" name="editProvince" onchange="editLoadCity();">
+              </select>
+            </div>
+            <div class="col-md-4">
+              <select id="editCity" class="form-control" name="editCity">
+              </select>
+            </div>
+            <div class="col-md-5">
+              <select id="editCounty" class="form-control" name="editCounty">
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <p class="text-danger healthms-reg-emsg"><strong id="editProvinceEMsg"></strong></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="editTel" class="col-md-2 control-label">主要联系电话</label>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12">
+              <input type="text" class="form-control" id="editTel" name="editTel" placeholder="请在此输入 电话" value="{{ patientInfo.patientTel }}">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <span class="help-block">手机号码为11位数字；座机为 区号-电话号码</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <p class="text-danger healthms-reg-emsg"><strong id="editTelEMsg"></strong></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="editPatientMarried" class="col-md-2 control-label">婚否</label>
+        <div class="col-md-6">
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default {% if patientInfo.patientMarried == '是' %}active{% endif %}">
+              <input type="radio" name="editPatientMarried" autocomplete="off" value="是" {% if patientInfo.patientMarried == '是' %}checked{% endif %}>是
+            </label>
+            <label class="btn btn-default {% if patientInfo.patientMarried == '否' %}active{% endif %}">
+              <input type="radio" name="editPatientMarried" autocomplete="off" value="否" {% if patientInfo.patientMarried == '否' %}checked{% endif %}>否
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="editPatientProfession" class="col-md-2 control-label">职业</label>
+        <div class="col-md-6">
+          <input type="text" class="form-control" id="editPatientProfession" name="editPatientProfession" placeholder="请在此输入 职业" value="{{ patientInfo.patientProfession }}">
+        </div>
+        <div class="col-md-4">
+          <p class="text-danger healthms-reg-emsg"><strong id="editPatientProfessionEMsg"></strong></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="editPatientAddress" class="col-md-2 control-label">住址/单位</label>
+        <div class="col-md-6">
+          <input type="text" class="form-control" id="editPatientAddress" name="editPatientAddress" placeholder="请在此输入 住址/单位" value="{{ patientInfo.patientAddress }}">
+        </div>
+        <div class="col-md-4">
+          <p class="text-danger healthms-reg-emsg"><strong id="editPatientAddressEMsg"></strong></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="editCode" class="col-md-2 control-label">验证码</label>
+        <div class="col-md-3">
+          <div class="input-group">
+            <input type="text" class="form-control" id="editCode" placeholder="验证码">
+            <span class="input-group-addon healthms-reg-codeimg-box">
+                  <a onclick="changeCode();"><img src="{{ url_for('get_code', n=0.1) }}" id="editCodeImg" class="img-rounded" alt="验证码"></a>
+                </span>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <p class="text-danger healthms-reg-emsg"><strong id="editCodeEMsg"></strong></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+          <button type="button" id="editSubmit" class="btn btn-primary">&nbsp;&nbsp;提&nbsp;交&nbsp;&nbsp;</button>
+          <button type="reset" class="btn btn-default" id="regReset">&nbsp;重&nbsp;置&nbsp;</button>
+        </div>
+      </div>
+    </form>
+{% endblock %}
+{% block userJs %}
+<script type="text/javascript">
+  var curProvince = "{{ patientInfo.patientProvince }}";
+  var curCity = "{{ patientInfo.patientCity }}";
+  var curCounty = "{{ patientInfo.patientCounty }}"
+  var curNation = "{{ patientInfo.patientNation }}";
+</script>
+<script src="{{ url_for('static', filename='datetimepicker/jquery.datetimepicker.js') }}"></script>
+<script src="{{ url_for('static', filename='js/healthms_edit_user_info.js') }}"></script>
+{% endblock %}

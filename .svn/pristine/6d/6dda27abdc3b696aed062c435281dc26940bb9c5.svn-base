@@ -1,0 +1,45 @@
+{% extends 'admin_base.html' %}
+
+{% block info %}
+active
+{% endblock %}
+
+{% block carousel %}
+active
+{% endblock %}
+
+{% block container %}
+<div class="row bottom-space">
+  <div class="col-md-12 text-right"><a class="btn btn-primary" href="{{ url_for('admin_carousel_deal', typ='add') }}">添加轮播图片</a></div>
+</div>
+{% if imgs %}
+
+    {% for img in imgs %}
+     <table class="table table-striped table-bordered">
+        <tr>
+        <td><strong>序号</strong></td>
+        <td>{{ loop.index }}</td>
+        <td><strong>标题</strong></td>
+        <td>{{ img[1] }}</td>
+        <td><strong>添加者</strong></td>
+        <td>{{ img[6] }}</td>
+        <td rowspan="3" valign="middle"><a href="{{ url_for('admin_carousel_deal', typ='edit', imgId=img[0]) }}">修改</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="delCarousel('{{ url_for('admin_carousel_list') }}', {{ img[0] }});">删除</a></td>
+    </tr>
+    <tr>
+        <td><strong>图片</strong></td>
+        <td colspan="5"><img src="{{ img[2] }}" alt="{{ img[1] }}" class="img-rounded carousel-img"></td>
+    </tr>
+    <tr>
+        <td><strong>链接地址</strong></td>
+        <td colspan="5">{{ img[3] }}</td>
+    </tr>
+     </table>
+    {% endfor %}
+{% else %}
+<div class="row">
+  <div class="col-md-12">
+    <h2 class="text-center">还未添加图片</h2>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

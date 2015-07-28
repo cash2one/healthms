@@ -1,0 +1,135 @@
+{% extends "base.html" %} {% block index %} active {% endblock %} {% block container %} {% if infoDict.carouselImg %}
+<div class="row healthms-index-carousel-body">
+  <div id="index-carousel" class="carousel slide healthms-index-carousel" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+      {% for img in infoDict.carouselImg %}
+      <li data-target="#index-carousel" data-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active" {% endif %}></li>
+      {% endfor %}
+    </ol>
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      {% for img in infoDict.carouselImg %}
+      <div class="item {% if loop.first %}active{% endif %}">
+        <a href="{{ img[3] }}" target="_black">
+          <img src="{{ img[2] }}" alt="{{ img[1] }}">
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    <!-- Controls -->
+    <a class="left carousel-control" href="#index-carousel" role="button" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left" aria-hidden="false"></span>
+      <span class="sr-only">上一个</span>
+    </a>
+    <a class="right carousel-control" href="#index-carousel" role="button" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right" aria-hidden="false"></span>
+      <span class="sr-only">下一个</span>
+    </a>
+  </div>
+</div>
+{% endif %}
+<div class="row healhtms-index-row-1">
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="pull-left">健康新资讯</h3>
+        <a href="{{ url_for('info_list', infoTyp = WEB_INFOS.INFO_TYP[0]) }}" class="pull-right healthms-index-more">更多&gt;&gt;</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="list-unstyled">
+          {% if infoDict.infoNews %} {% for infoNews in infoDict.infoNews %}
+          <li>
+            <div class="row">
+              <div class="col-md-1 col-xs-1 healthms-clean-padding-right">
+                <p class="text-right">{{ loop.index }}.</p>
+              </div>
+              <div class="col-md-7 col-xs-6 healthms-clean-padding-left">
+                <a href="{{ url_for('info', articleId=infoNews[0]) }}">{{ infoNews[2] }}</a>
+              </div>
+              <div class="col-md-4 col-xs-5">
+                <p class="text-muted healhtms-index-info-date">{{ infoNews[6].strftime('%Y-%m-%d') }}</p>
+              </div>
+            </div>
+          </li>
+          {% endfor %}{% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="pull-left">中医疗法介绍</h3>
+        <a href="{{ url_for('info_list', infoTyp = WEB_INFOS.INFO_TYP[1]) }}" class="pull-right healthms-index-more">更多&gt;&gt;</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="list-unstyled">
+          {% if infoDict.infoMedicine %} {% for infoMedicine in infoDict.infoMedicine %}
+          <li>
+            <div class="row">
+              <div class="col-md-1 col-xs-1 healthms-clean-padding-right">
+                <p class="text-right">{{ loop.index }}.</p>
+              </div>
+              <div class="col-md-7 col-xs-6 healthms-clean-padding-left">
+                <a href="{{ url_for('info', articleId=infoMedicine[0]) }}">{{ infoMedicine[2] }}</a>
+              </div>
+              <div class="col-md-4 col-xs-5">
+                <p class="text-muted healhtms-index-info-date">{{ infoMedicine[6].strftime('%Y-%m-%d') }}</p>
+              </div>
+            </div>
+          </li>
+          {% endfor %}{% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% if infoDict.doctors %}
+<hr class="healthms-index-hr">
+<div class="row">
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="pull-left">专家列表</h3>
+        <a href="{{ url_for('list_doctors') }}" class="pull-right healthms-index-more">更多&gt;&gt;</a>
+      </div>
+    </div>
+    <div class="row">
+      {% for doctor in infoDict.doctors %}
+      <div class="col-md-2 col-sm-6">
+        <a href="{{ url_for('detail_doctors', doctorId=doctor[0]) }}" class="thumbnail healthms-doctor-a">
+          <img src="{{ doctor[16] }}" alt="{{ doctor[3] }}" class="img-rounded">
+          <div class="caption">
+            <h4>{{ doctor[3] }}<br><small>{{ doctor[13] }}、{{ doctor[14] }}</small></h4>
+            <p>{{ doctor[11] }}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+{% if infoDict.friendLink %}
+<div class="row healthms-index-links-body">
+  <div class="col-md-2">
+    <h3>友情链接</h3></div>
+  <div class="col-md-10 healthms-index-links-container">
+    {% for link in infoDict.friendLink %} 
+      {% if loop.index%4 == 0 %}
+      <div class="row">
+      {% endif %}
+        <div class="col-md-3"><a href="{{ link[2] }}" target="_black">{{ link[1] }}</a></div>
+      {% if loop.index%4 == 4 %}
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% endif %} {% endblock %}

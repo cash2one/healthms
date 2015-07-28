@@ -1,0 +1,54 @@
+{% if users.users %}
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!-- Bootstrap -->
+  <!-- 使用 IE 最新的渲染模式 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- 开启兼容移动设备响应式布局 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+<table class="table table-bordered table-hover text-center" id="doctorListTable">
+  <thead>
+    <tr>
+        <td><strong>序号</strong></td>
+        <td><strong>账号</strong></td>
+        <td><strong>姓名</strong></td>
+        <td><strong>性别</strong></td>
+        {% if users.userTyp == WEB_INFOS.USER_TYP[1] %}<td><strong>审核</strong></td>{% endif %}
+        <td><strong>注册时间</strong></td>
+        <td><strong>操作</strong></td>
+      </tr>
+  </thead>
+  <tbody>
+  {% for user in users.users %}
+  <tr>
+    <td>{{ loop.index }}</td>
+    <td>{{ user.userEmail }}</td>
+    <td>{{ user.userName }}</td>
+    <td>{{ user.userGender }}</td>
+    {% if users.userTyp == WEB_INFOS.USER_TYP[1] %}
+    <td>
+      {% if user.doctorCheck == 0 %}
+      未审核
+      {% elif user.doctorCheck == 1 %}
+      审核未通过
+      {% elif user.doctorCheck == 2 %}
+      审核通过
+      {% else %}
+      未知
+      {% endif %}
+    </td>
+    {% endif %}
+    <td>{{ user.userRegDate.strftime('%Y-%m-%d') }}</td>
+    <td><a href="{% if users.userTyp == WEB_INFOS.USER_TYP[0] %}{{ url_for('admin_patient_detail', patientId=user.userId) }}{% elif users.userTyp == WEB_INFOS.USER_TYP[1] %}{{ url_for('admin_doctor_detail', doctorId=user.userId, navTyp='doctorList') }}{% endif %}" target="_parent">详细信息</a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endif %}
+

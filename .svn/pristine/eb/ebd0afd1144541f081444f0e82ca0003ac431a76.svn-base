@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block login %}
+active
+{% endblock %}
+
+{% block container %}
+  <div class="container healthms-login-container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="text-center healthms-login-form-title">{% if userTyp==WEB_INFOS.USER_TYP[0] %}用户{% elif userTyp==WEB_INFOS.USER_TYP[1] %}医生{% endif %}登录</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <!-- Tab panes -->
+        <div class="panel panel-default healthms-login-panel">
+          <div class="panel-body">
+            <div class="tab-content">
+              <!-- 用户入口表单 -->
+              <div role="tabpanel" class="tab-pane active" id="patient">
+                <div id="healthms-login-error" style="display: none;">
+                </div>
+                <form class="form-horizontal">
+                  <div class="form-group">
+                    <label for="email" class="col-sm-2 control-label">电子邮箱</label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="email" placeholder="请在此输入您的电子邮箱地址" required="required">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="password" class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" id="password" placeholder="请在此输入您的密码" required="required">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"> 记住登录状态
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="button" class="btn btn-primary" id="patientSubmit" onClick="ajaxLoginForm('{{userTyp}}');">{% if userTyp==WEB_INFOS.USER_TYP[0] %}用户登录{% elif userTyp==WEB_INFOS.USER_TYP[1] %}医生登录{% endif %}</button>
+                      {% if userTyp==WEB_INFOS.USER_TYP[0] %}
+                      <a href="{{ url_for('register', userTyp=WEB_INFOS.USER_TYP[0]) }}" class="btn btn-default" role="button">用户注册</a>
+                      {% elif userTyp==WEB_INFOS.USER_TYP[1] %}
+                      <a href="{{ url_for('register', userTyp=WEB_INFOS.USER_TYP[1]) }}" class="btn btn-default" role="button">医生注册</a>
+                      {% endif %}
+                      {% if userTyp==WEB_INFOS.USER_TYP[0] %}
+                      <a href="{{ url_for('login', userTyp=WEB_INFOS.USER_TYP[1]) }}" class="healthms-clean-padding-right-left-5">我是医生</a>
+                      {% elif userTyp==WEB_INFOS.USER_TYP[1] %}
+                      <a href="{{ url_for('login', userTyp=WEB_INFOS.USER_TYP[0]) }}" class="healthms-clean-padding-right-left-5">我是用户</a>
+                      {% endif %}
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "admin_base.html" %}
+
+{% block index %}
+active
+{% endblock %}
+{% block container %}
+<h2 class="text-center">欢迎来到&nbsp;{{ WEB_INFOS.PROJECT_NAME }}&nbsp;后台管理系统</h2>
+{% endblock %}

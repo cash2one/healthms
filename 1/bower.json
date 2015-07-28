@@ -1,0 +1,13 @@
+{
+  "name": "healthms",
+  "version": "0.0.1",
+  "authors": [
+    "Tanky"
+  ],
+  "license": "MIT",
+  "homepage": "http://healthms.sinaapp.com",
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "datetimepicker": "~2.4.1"
+  }
+}

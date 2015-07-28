@@ -1,0 +1,50 @@
+{% extends 'admin_base.html' %}
+
+{% block patient %}
+active
+{% endblock %}
+
+{% block patientList %}
+active
+{% endblock %}
+
+{% block container %}
+{% if patient %}
+<div class="page-header">
+  <h2 class="text-center">{{ patient[3] }}&nbsp;&nbsp;详细信息</h2>
+</div>
+<div class="row">
+<dl class="dl-horizontal healthms-admin-detail-dl">
+  <dt>Email：</dt>
+  <dd>{{ patient[1] }}</dd>
+  <dt>姓名：</dt>
+  <dd>{{ patient[3] }}</dd>
+  <dt>性别：</dt>
+  <dd>{{ patient[7] }}</dd>
+  <dt>生日：</dt>
+  <dd>{{ patient[8] }}</dd>
+  <dt>民族：</dt>
+  <dd>{{ patient[11] }}</dd>
+  <dt>籍贯：</dt>
+  <dd>{{ patient[4] }}&nbsp;&nbsp;{{ patient[5] }}&nbsp;&nbsp;{{ patient[6] }}</dd>
+  <dt>联系电话：</dt>
+  <dd>{{ patient[9] }}</dd>
+  <dt>职业：</dt>
+  <dd>{{ patient[10] }}</dd>
+  <dt>婚否：</dt>
+  <dd>{{ patient[12] }}</dd>
+  <dt>住址/单位：</dt>
+  <dd>{{ patient[13] }}</dd>
+  <dt>注册时间：</dt>
+  <dd>{{ patient[15] }}</dd>
+  <dt>最后登录时间：</dt>
+  <dd>{{ patient[14] }}</dd>
+</dl>
+</div>
+<div class="row page-container-bottom">
+  <div class="col-md-10 col-md-offset-1">
+    <a href="javascript:history.back();" class="btn btn-default" role="button">返回</a>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

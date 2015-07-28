@@ -1,0 +1,109 @@
+{% extends 'admin_base.html' %}
+
+{% block info %}
+active
+{% endblock %}
+
+{% block friendLink %}
+active
+{% endblock %}
+
+{% block container %}
+<!-- add link Modal begin -->
+<div class="modal fade" id="addLink" tabindex="-1" role="dialog" aria-labelledby="addLinkLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addLinkLabel">添加链接</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="addFriendLinkTitle" class="control-label">网站名称：</label>
+            <input type="text" class="form-control" id="addFriendLinkTitle">
+          </div>
+          <div class="form-group">
+            <label for="addFriendLinkUrl" class="control-label">URL：</label>
+            <input type="text" class="form-control" id="addFriendLinkUrl">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" onclick="addLink('{{ url_for('admin_friend_link', typ='add') }}');">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- add link Modal end -->
+
+<div class="row bottom-space">
+  <div class="col-md-12 text-right bottom-space">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addLink">添加链接</button>    
+  </div>
+</div>
+{% if friendLinks %}
+{% for link in friendLinks %}
+<!-- edit link Modal begin -->
+<div class="modal fade" id="editLink{{ link[0] }}" tabindex="-1" role="dialog" aria-labelledby="editLinkLabel{{ link[0] }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="editLinkLabel{{ link[0] }}">添加链接</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="editFriendLinkTitle{{ link[0] }}" class="control-label">网站名称：</label>
+            <input type="text" class="form-control" id="editFriendLinkTitle{{ link[0] }}" value="{{ link[1] }}">
+          </div>
+          <div class="form-group">
+            <label for="editFriendLinkUrl{{ link[0] }}" class="control-label">URL：</label>
+            <input type="text" class="form-control" id="editFriendLinkUrl{{ link[0] }}" value="{{ link[2] }}">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" onclick="editLink('{{ url_for('admin_friend_link', typ='edit') }}', {{ link[0] }});">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- edit link Modal end -->
+{% endfor %}
+<table class="table table-bordered table-hover text-center">
+  <thead>
+    <tr>
+      <th>序号</th>
+      <th>网站名称</th>
+      <th>URL</th>
+      <th>添加人</th>
+      <th>添加时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for link in friendLinks %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ link[1] }}</td>
+      <td>{{ link[2] }}</td>
+      <td>{{ link[5] }}</td>
+      <td>{{ link[4] }}</td>
+      <td><a href="#editLink{{ link[0] }}" data-toggle="modal">修改</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="delLink('{{ url_for('admin_friend_link', typ='del') }}', {{ link[0] }});">删除</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="row">
+  <div class="col-md-12">
+    <h2 class="text-center">暂无友情链接</h2>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

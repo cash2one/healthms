@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block info %}
+active
+{% endblock %}
+
+{% block container %}
+
+<div class="row healthms-container-top healthms-container-bottom">
+  <div class="col-md-9">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{ infoDict.infoTyp }}</h3>
+      </div>
+      <div class="panel-body">
+        <ul class="list-unstyled healthms-infolist-ul">
+          {% if infoDict.infos %}
+          {% for info in infoDict.infos %}
+          <li>
+            <div class="row">
+              <div class="col-md-10"><p>&gt;&gt;</p><a href="{{ url_for('info', articleId=info[0]) }}" >{{ info[2] }}</a></div>
+              <div class="col-md-2"><p class="text-muted text-right">{{ info[6].strftime('%Y-%m-%d')  }}</p></div>
+            </div>
+          </li>
+          {% endfor %}{% endif %}
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">热门文章</h3>
+      </div>
+      <ul class="list-group healthms-infolist-hot-artcile-ul">
+        {% if infoDict.infoHot %}
+        {% for infoHot in infoDict.infoHot %}
+        <li class="list-group-item">
+          <div class="row">
+            <div class="col-md-7 healthms-clean-padding-right"><a href="{{ url_for('info', articleId=infoHot[0]) }}" >{{ infoHot[2] }}</a></div>
+            <div class="col-md-5"><p class="text-muted pull-right">{{ infoHot[6].strftime('%Y-%m-%d') }}</p></div>
+          </div>
+        </li>
+        {% endfor %}{% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

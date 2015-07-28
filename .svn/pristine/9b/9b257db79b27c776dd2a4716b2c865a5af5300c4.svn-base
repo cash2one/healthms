@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block container %}
+
+<div class="row healthms-container-top">
+  <h2 class="text-center">{{ patientTestCate.cateName }}</h2>
+</div>
+<div class="row">
+  <dl class="dl-horizontal healthms-patient-test-cate-dl">
+    <dt>总体特征：</dt>
+    <dd>{{ patientTestCate.cateContent.cGeneral }}</dd>
+    <dt>形体特征：</dt>
+    <dd>{{ patientTestCate.cateContent.cPhysique }}</dd>
+    <dt>常见表现：</dt>
+    <dd>{{ patientTestCate.cateContent.cExpression }}</dd>
+    <dt>心理特征：</dt>
+    <dd>{{ patientTestCate.cateContent.cPsychology }}</dd>
+    <dt>发病倾向：</dt>
+    <dd>{{ patientTestCate.cateContent.cInciTend }}</dd>
+    <dt>对外界环境适应能力：</dt>
+    <dd>{{ patientTestCate.cateContent.cAdaptability }}</dd>
+    <dt>辨识方法：</dt>
+    <dd>{{ patientTestCate.cateContent.cIdentification }}</dd>
+    <dt>调节方法：</dt>
+    <dd>{{ patientTestCate.cateContent.cAdjust }}</dd>
+  </dl>
+</div>
+<div class="row healthms-container-bottom">
+  <div class="col-md-12 text-center">
+    <a href="javascript:history.go(-1);" class="btn btn-default btn-lg healthms-left-btn" role="button">返回</a>
+    <a href="{{ url_for('patient_test', testTitle=testTitle) }}" class="btn btn-primary btn-lg" role="button">重新测试</a>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'admin_base.html' %}
+
+{% block patient %}
+{% if userTyp == WEB_INFOS.USER_TYP[0] %}
+active
+{% endif %}
+{% endblock %}
+{% block patientList %}
+{% if userTyp == WEB_INFOS.USER_TYP[0] %}
+active
+{% endif %}
+{% endblock %}
+{% block doctor %}
+{% if userTyp == WEB_INFOS.USER_TYP[1] %}
+active
+{% endif %}
+{% endblock %}
+{% block doctorList %}
+{% if userTyp == WEB_INFOS.USER_TYP[1] %}
+active
+{% endif %}
+{% endblock %}
+
+
+{% block container %}
+{% if userTyp == WEB_INFOS.USER_TYP[1] %}
+<div class="row">
+  <div class="col-md-2 col-md-offset-10">
+    <input type="hidden" value="3" id="doctorListNowTyp">
+    <select class="form-control" id="doctorListTyp">
+      <option value="3">全部</option>
+      <option value="0">未验证</option>
+      <option value="1">未通过验证</option>
+      <option value="2">通过验证</option>
+    </select>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">&nbsp;</div>
+</div>
+{% endif %}
+<div class="row">
+  <div class="col-md-12">
+    <iframe src="{{ url_for('admin_user_list_table', userTyp=userTyp) }}" frameborder="0" width="100%" height="100%" id="userIframe" onLoad="iFrameHeight()"></iframe>
+    <script type="text/javascript">
+        function iFrameHeight() {
+          var ifm = document.getElementById("userIframe");
+          var subWeb = document.frames ? document.frames["userIframe"].document : ifm.contentDocument;
+          if (ifm != null && subWeb != null) {
+            ifm.height = subWeb.body.scrollHeight;
+          }
+        }
+    </script>
+  </div>
+</div>
+{% endblock %}
+{% block js %}
+{% if userTyp == WEB_INFOS.USER_TYP[1] %}
+<script type="text/javascript">
+  doctorUrl = "{{ url_for('admin_user_list_table', userTyp=WEB_INFOS.USER_TYP[1]) }}"
+</script>
+{% endif %}
+{% endblock %}

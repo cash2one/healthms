@@ -1,0 +1,228 @@
+{% extends "base.html" %} {% block patientAskDoctor %} active {% endblock %} {% block container %}
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="page-header">
+      <h1 class="text-center">网上问诊单</h1>
+    </div>
+    <div class="row">
+      <div class="col-md-11 col-md-offset-1">
+        <form action="{{ url_for('patient_ask_form_deal', typ='add') }}" class="form-horizontal" method="POST" id="askForm" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="cardinalSymptom" class="col-md-2 control-label">主要症状：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="cardinalSymptom" name="cardinalSymptom" {% if askForm %}value="{{ askForm[2] }}" {% endif %}>
+              <p class="help-block">哪里最不舒服或者不妥，最需解决的是什么问题。<strong class="text-danger">此处重点填写，详细描述！</strong></p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="cardinalSymptomEMsg"></strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="otherDiscomfort" class="col-md-2 control-label">其他不适：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="otherDiscomfort" name="otherDiscomfort" {% if askForm %}value="{{ askForm[3] }}" {% endif %}>
+              <p class="help-block">比如有没口苦，胸闷，胃胀腹痛，头晕耳鸣，腰酸背疼，腿抽筋等。<strong class="text-danger">酌情描述</strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="sickTime" class="col-md-2 control-label">生病时间：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="sickTime" name="sickTime" {% if askForm %}value="{{ askForm[4] }}" {% endif %}>
+              <p class="help-block">什么时候开始，患病多久。</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="sickTimeEMsg"></strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="lipColor" class="col-md-2 control-label">面唇颜色：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="lipColor" name="lipColor" {% if askForm %}value="{{ askForm[5] }}" {% endif %}>
+              <p class="help-block"><strong>面色：</strong>正常，红，黄，白，黑，青？<strong>唇色：</strong>正常、深红、紫红、青紫、淡白等</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="lipColorEMsg"></strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bodyFeel" class="col-md-2 control-label">身体冷热：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="bodyFeel" name="bodyFeel" {% if askForm %}value="{{ askForm[6] }}" {% endif %}>
+              <p class="help-block">比如怕冷，怕热，发冷，发热，怕风，往来寒热等。</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="bodyFeelEMsg"></strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="sweatingCondition" class="col-md-2 control-label">出汗情况：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="sweatingCondition" name="sweatingCondition" {% if askForm %}value="{{ askForm[7] }}" {% endif %}>
+              <p class="help-block">比如无汗，多汗，少汗，战汗，自汗，盗汗等。</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="sweatingConditionEMsg"></strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="appetiteCondition" class="col-md-2 control-label">食欲情况：</label>
+            <div class="col-md-6">
+              <div class="btn-group" data-toggle="buttons">
+                {% if askForm %}
+                <label class="btn btn-default">
+                  <input type="radio" name="appetiteCondition" autocomplete="off" {% if askForm[8] == '好' %}checked{% endif %} value="好">好
+                </label>
+                <label class="btn btn-default active">
+                  <input type="radio" name="appetiteCondition" autocomplete="off" {% if askForm[8] == '一般' %}checked{% endif %} checked value="一般">一般
+                </label>
+                <label class="btn btn-default">
+                  <input type="radio" name="appetiteCondition" autocomplete="off" {% if askForm[8] == '差' %}checked{% endif %} value="差">差
+                </label>
+                {% else %}
+                <label class="btn btn-default">
+                  <input type="radio" name="appetiteCondition" autocomplete="off" value="好">好
+                </label>
+                <label class="btn btn-default active">
+                  <input type="radio" name="appetiteCondition" autocomplete="off" checked value="一般">一般
+                </label>
+                <label class="btn btn-default">
+                  <input type="radio" name="appetiteCondition" autocomplete="off" value="差">差
+                </label>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="drinkingCondition" class="col-md-2 control-label">饮水情况：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="drinkingCondition" name="drinkingCondition" {% if askForm %}value="{{ askForm[9] }}" {% endif %}>
+              <p class="help-block">比如不渴，渴喜热饮，渴喜冷饮，渴不欲饮？饮水量多不多？</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="drinkingConditionEMsg"></strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="shitCondition" class="col-md-2 control-label">大便情况：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="shitCondition" name="shitCondition" {% if askForm %}value="{{ askForm[10] }}" {% endif %}>
+              <p class="help-block">基本正常？便秘/几日一次？溏泻/一日几次？不成型？干湿不定？颜色？</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="shitConditionEMsg"></strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="urineCondition" class="col-md-2 control-label">小便情况：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="urineCondition" name="urineCondition" {% if askForm %}value="{{ askForm[11] }}" {% endif %}>
+              <p class="help-block">尿色如茶，红，黄，清，白？尿量多还少？次数多不多？</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="urineConditionEMsg"></strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="spiritSleepCondition" class="col-md-2 control-label">精神睡眠：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="spiritSleepCondition" name="spiritSleepCondition" {% if askForm %}value="{{ askForm[12] }}" {% endif %}>
+              <p class="help-block"><strong>精神：</strong>很好、一般、四肢无力、精神疲倦等等；<strong>睡眠：</strong>难入睡、多梦、易醒等等</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="spiritSleepConditionEMsg"></strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="moodCondition" class="col-md-2 control-label">情绪心情：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="moodCondition" name="moodCondition" {% if askForm %}value="{{ askForm[13] }}" {% endif %}>
+              <p class="help-block">情绪：易怒、惊、悲伤等等；心情：郁闷、烦躁、思想负担重、有压力等等。</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="moodConditionEMsg"></strong></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="tonguePulseCondition" class="col-md-2 control-label">舌脉简况：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="tonguePulseCondition" name="tonguePulseCondition" {% if askForm %}value="{{ askForm[14] }}" {% endif %}>
+              <p class="help-block">此选项患者不一定懂，只需简浅描述。可以数数脉一分钟跳几下，看看舌是红是淡，舌苔是黄是白，厚不厚等。</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="tonguePulseConditionEMsg"></strong></p>
+            </div>
+          </div>
+          {% if patientInfo.patientGender == '女' %}
+          <div class="form-group">
+            <label for="pubesCondition" class="col-md-2 control-label">经带情况：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="pubesCondition" name="pubesCondition" {% if askForm %}value="{{ askForm[15] }}" {% endif %}>
+              <p class="help-block">女性需填此，月经周期、时间、颜色，浓稀，量多少，有无块？ 白带色、质、量又如何，有没异味等</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="pubesConditionEMsg"></strong></p>
+            </div>
+          </div>
+          {% endif %}
+          <div class="form-group">
+            <label for="localLesion" class="col-md-2 control-label">局部病变：</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="localLesion" name="localLesion" {% if askForm %}value="{{ askForm[16] }}" {% endif %}>
+              <p class="help-block">皮肤病、疮疡、外伤者需填此，包括局部颜色、肤温、有无肿胀、质地等。</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="briefHistory" class="col-md-2 control-label">简要病史：</label>
+            <div class="col-md-6">
+              <textarea class="form-control" rows="3" id="briefHistory" name="briefHistory">{% if askForm %}{{ askForm[17] }}{% endif %}</textarea>
+              <p class="help-block">简要说说发病经过，既往病史，经过什么治疗？最近吃过什么药？</p>
+            </div>
+            <div class="col-md-3">
+              <p class="text-danger healthms-reg-emsg"><strong id="briefHistoryEMsg"></strong></p>
+            </div>
+          </div>
+          {% if askForm and askForm[18] != '' %}
+          <div class="form-group">
+            <p class="col-md-2 text-right"><strong>舌苔图片：</strong></p>
+            <div class="col-md-6">
+              <img src="{{ askForm[18] }}" alt="舌苔图片">
+            </div>
+          </div>
+          {% endif %}
+          <div class="form-group">
+            <label for="tongueImg" class="col-md-2">上传舌苔图片：</label>
+            <div class="col-md-6">
+              <input type="file" id="tongueImg" class="form-control" name="tongueImg">
+              <p class="help-block">最好能传上舌像图一张（早晨舌片或空腹舌片最佳），这对诊断会有一定帮助。</p>
+              <p class="help-block"><strong>注意：</strong>图片格式：{% if CAROUSEL_TYP %}{% for c in CAROUSEL_TYP %}{% if loop.last %}{{ c }}{% else %}{{ c }},&nbsp;{% endif %}{% endfor %}{% endif %}；大小：1MB以下；</p>
+            </div>
+          </div>
+          {% if askForm %}
+          <input type="hidden" name="askId" value="{{ askForm[0] }}">
+          {% endif %}
+          <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+              {% if askForm %}
+              <a href="{{ url_for('patient_ask_form_list') }}" class="btn btn-default" role="button">返回</a>
+              {% endif %}
+              <button type="button" class="btn btn-primary" onclick="ajaxSubmitAsk();">提交</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block headCss %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datetimepicker/jquery.datetimepicker.css') }}" /> {% endblock %} {% block js %}
+<script src="{{ url_for('static', filename='js/healthms_ask.js') }}"></script>
+<script src="{{ url_for('static', filename='datetimepicker/jquery.datetimepicker.js') }}"></script>
+<script type="text/javascript">
+// 设置点击出生日期时 弹出 datetimepicker
+$('#sickTime').datetimepicker({
+  lang: 'ch',
+  timepicker: false,
+  format: 'Y-m-d'
+});
+</script>
+{% endblock %}

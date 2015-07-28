@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block patientHistory %}
+active
+{% endblock %}
+{% block container %}
+
+{% if patientTestResultList %}
+<div class="row healthms-container-top">
+  <div class="col-md-12">
+    <h2 class="text-center">{{ testTitle }}&nbsp;&nbsp;历史记录</h2>
+  </div>
+</div>
+<div class="row">&nbsp;</div>
+
+{% if testTitle == WEB_INFOS.TEST_NAMES[0] %}
+<div class="row {% if not goBack %}healthms-container-bottom{% endif %}">
+  <div class="col-md-12">
+    <table class="table table-bordered text-center">
+      <tr>
+        <td><strong>序号</strong></td>
+        <td><strong>主要体质</strong></td>
+        <td><strong>倾向体质</strong></td>
+        <td><strong>测试时间</strong></td>
+        <td><strong>操作</strong></td>
+      </tr>
+      {% if patientTestResultList %}
+        {% for patientTestResult in patientTestResultList %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ patientTestResult.testResultContent.patientTestMainResult[0] }}</td>
+            <td>
+            {% if patientTestResult.testResultContent.patientTestOtResult %}
+              {% for patientTestOt in patientTestResult.testResultContent.patientTestOtResult %}
+                {% if not loop.last %}
+                  {{ patientTestOt.patientTestOt }},&nbsp;
+                {% else %}
+                  {{ patientTestOt.patientTestOt }}
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              无
+            {% endif %}
+            </td>
+            <td>{{ patientTestResult.testResultDate }}</td>
+            <td><a href="{{ url_for('patient_test_result', result_id=patientTestResult.testResultId) }}">查看</a>{% if patientInfo %}&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="ajaxDelTestResult('{{ testTitle }}', {{ patientTestResult.testResultId }});">删除</a>{% endif %}</td>
+          </tr>
+        {% endfor %}
+      {% endif %}
+    </table>
+  </div>
+</div>
+{% elif testTitle == WEB_INFOS.TEST_NAMES[1] %}
+{% if patientTestResultList %}
+<div class="row {% if not goBack %}healthms-container-bottom{% endif %}">
+  <div class="col-md-12">
+    <table class="table table-bordered text-center">
+      <tr>
+        <td><strong>序号</strong></td>
+        <td><strong>总分</strong></td>
+        <td><strong>总体情况</strong></td>
+        <td><strong>测试时间</strong></td>
+        <td><strong>操作</strong></td>
+      </tr>
+      {% for patientTestResult in patientTestResultList %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ patientTestResult.testResultContent.testSum.testSum }}</td>
+        <td>{{ patientTestResult.testResultContent.testSum.testSumMsg }}</td>
+        <td>{{ patientTestResult.testResultDate }}</td>
+        <td><a href="{{ url_for('patient_test_result', result_id=patientTestResult.testResultId) }}">查看</a>{% if patientInfo %}&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="ajaxDelTestResult('{{ testTitle }}', {{ patientTestResult.testResultId }});">删除</a>{% endif %}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endif %}
+{% if goBack %}
+<div class="text-right healthms-container-bottom">
+  <a href="javascript:history.back();" class="btn btn-default" role="button">返回</a>
+</div>
+{% endif %}
+{% else %}
+<div class="row healthms-container-bottom healthms-container-top">
+  <div class="col-md-12 text-center">
+    <h2>您还未进行&nbsp;{{ testTitle }}&nbsp;测试。</h2>
+    <br>
+    <a href="{{ url_for('patient_test', testTitle=testTitle) }}" class="btn btn-primary btn-lg" role="button">开始测试</a>
+  </div>
+</div>
+{% endif %}
+  
+{% endblock %}

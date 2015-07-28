@@ -1,0 +1,122 @@
+.healthms-vertical-center {
+  height: 34px;
+  line-height: 34px;
+}
+.healthms-width-auto {
+  width: auto;
+}
+.healthms-clean-padding-right {
+  padding-right: 0; 
+}
+.healthms-clean-padding-left {
+  padding-left: 0; 
+}
+.healthms-clean-padding-right-left-5 {
+  padding-right: 5px !important; 
+  padding-left: 5px !important;
+}
+.healthms-text-white {
+  color: white;
+}
+.healthms-container-height {
+  padding-top: 20px;
+}
+.healthms-nav {
+  margin-bottom: 0px;
+}
+.healthms-left-btn {
+  margin-right: 30px;
+}
+
+.healthms-fill-width {
+  width: 100%;
+}
+.healthms-gray {
+  background-color: #eeeeee;
+}
+
+.healthms-login-form-title {
+  margin-bottom: 30px;
+}
+
+.healthms-login-container div div ul li {
+  width: 50%;
+}
+
+.healthms-login-container div div div div div div form {
+  padding-top: 30px;
+}
+
+.healthms-login-panel {
+  border-top-width: 0px !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+/*
+ * Footer
+ */
+.healthms-login-footer {
+  height: 111px;
+  padding: 40px 0;
+  color: #fff;
+  text-align: center;
+  background-color: #337ab7;
+  border-top: 1px solid #e5e5e5;
+}
+
+.healthms-inline {
+  display: inline !important;
+  width: auto !important;
+}
+
+
+.healthms-reg-main {
+  margin-top: 50px;
+  margin-bottom: 80px;
+}
+
+.healthms-reg-title {
+  margin-bottom: 30px;
+}
+
+.healthms-reg-emsg {
+  padding-top: 4px;
+}
+.healthms-patient-reg-codeimg-box {
+  padding: 0;
+}
+.healthms-patient-reg-code-err {
+  right:95px !important;
+}
+
+.healthms-index-main {
+  border-left: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+.healthms-patient-index-sidebar {
+  margin-top: 30px;
+}
+
+.healthms-test-list-td {
+  padding: 0 !important;
+}
+
+.healthms-test-list-container {
+  width: 100%;
+}
+
+.healthms-test-list-radio {
+  width: 20%
+}
+
+.healthms-patient-test-result-dl>dd {
+  margin-bottom: 20px;
+}
+.healthms-patient-test-cate-dl {
+  margin:30px 0 40px 0;
+}
+.healthms-patient-test-cate-dl>dd {
+  margin-bottom: 20px;
+}

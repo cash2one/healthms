@@ -1,0 +1,10 @@
+name: healthms
+version: 2
+
+libraries:
+- name: flask-sqlalchemy
+  version: "0.15" 
+
+handlers:
+- url: /app/static/
+  static_path: static
